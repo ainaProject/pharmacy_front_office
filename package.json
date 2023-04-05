@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
+    "bootstrap": "^5.0.1",
+    "dom-to-image": "^2.6.0",
+    "file-saver": "^2.0.5",
+    "jquery": "^3.6.3",
+    "sweetalert": "^2.1.2"
+  }
+}

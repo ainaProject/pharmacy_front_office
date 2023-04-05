@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Pharmacie site</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="./public/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet"
+        type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="./public/css/styles.css" rel="stylesheet" />
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+
+</head>
+
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#page-top">A - Pharmacie</a>
+            <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"
+                            href="#portfolio">Médicaments</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">A
+                            propos</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded"
+                            href="#contact">Pharmacie</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Masthead-->
+    <header class="masthead bg-primary text-white text-center">
+        <div class="container d-flex align-items-center flex-column">
+            <!-- Masthead Avatar Image-->
+            <img class="masthead-avatar mb-5" src="./public/assets/img/logo_round.png" alt="..." />
+            <!-- Masthead Heading-->
+            <h1 class="masthead-heading text-uppercase mb-0">Bienvenue</h1>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Masthead Subheading-->
+            <p class="masthead-subheading font-weight-light mb-0">A - Pharmacie</p>
+        </div>
+    </header>
+    <!-- Portfolio Section-->
+    <section class="page-section portfolio" id="portfolio">
+        <div class="container">
+            <!-- Portfolio Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Médicaments</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Portfolio Grid Items-->
+            <div class="row justify-content-center">
+                <div class="container px-4 px-lg-5 mt-5">
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-left">
+                        <div class="col mb-5">
+                            <div class="input-group rounded">
+                                <input type="search" onkeyup="searchMedicament()" id="keyMedicament"
+                                    class="form-control rounded" placeholder="Search" aria-label="Search"
+                                    aria-describedby="search-addon" />
+                                <span class="input-group-text border-0" id="search-addon">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col mb-5">
+                            <div class=" col-6" style="display:flex;">
+                                <span style="font-family:verdana;  font-weight:500;">Afficher</span>&ensp;
+                                <div class=" col-6">
+                                    <select class="form-control" style="text-align:center;" id="limitInputMedicament"
+                                        onchange="changeMedicamentLimitData()">
+                                        <option value="10" selected>10</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>&ensp;
+                                <span style="font-family:verdana;  font-weight:500;">éléments</span>
+                            </div>
+                        </div>
+                        <div class="col mb-5">
+                            <button onclick="showListPanierModal()"
+                                style="border: none; cursor: pointer; padding: 0; background-color: inherit;">
+                                <i class="fas fa-2x fa-shopping-basket"></i>
+                                <span class="badge badge-dark bg-info" style="position:absolute;margin-left: -5px;"
+                                    id="badge_pan"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+                        id="dynamic_content_product">
+                        <!-- Content dynamic in the js-->
+                    </div>
+                    <div class="row">
+                        <nav>
+                            <ul class="pagination">
+                                <div class="" style="display:flex; width:100%;" id="pagination_medicament_content">
+
+                                </div>
+                            </ul>
+                        </nav>
+                        <!-- Content dynamic in the js-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- About Section-->
+    <section class="page-section bg-primary text-white mb-0" id="about">
+        <div class="container">
+            <!-- About Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-white">About</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- About Section Content-->
+            <div class="row">
+                <div class="col-lg-4 ms-auto">
+                    <p class="lead">Freelancer is a free bootstrap theme created by Start Bootstrap. The download
+                        includes the complete source files including HTML, CSS, and JavaScript as well as optional SASS
+                        stylesheets for easy customization.</p>
+                </div>
+                <div class="col-lg-4 me-auto">
+                    <p class="lead">You can create your own custom avatar for the masthead, change the icon in the
+                        dividers, and add your email address to the contact form to make it fully functional!</p>
+                </div>
+            </div>
+            <!-- About Section Button-->
+            <div class="text-center mt-4">
+                <a class="btn btn-xl btn-outline-light" href="https://startbootstrap.com/theme/freelancer/">
+                    <i class="fas fa-download me-2"></i>
+                    Free Download!
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section-->
+    <section class="page-section" id="contact">
+        <div class="container">
+            <!-- Contact Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Nos Pharmacie</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- Contact Section Form-->
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+                id="dynamic_content_pharmacy">
+
+            </div>
+        </div>
+    </section>
+    <div id="cart"></div>
+    <!-- Footer-->
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row">
+                <!-- Footer Location-->
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase mb-4">Location</h4>
+                    <p class="lead mb-0">
+                        2215 John Daniel Drive
+                        <br />
+                        Clark, MO 65243
+                    </p>
+                </div>
+                <!-- Footer Social Icons-->
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase mb-4">Around the Web</h4>
+                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i
+                            class="fab fa-fw fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i
+                            class="fab fa-fw fa-linkedin-in"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
+                </div>
+                <!-- Footer About Text-->
+                <div class="col-lg-4">
+                    <h4 class="text-uppercase mb-4">About Freelancer</h4>
+                    <p class="lead mb-0">
+                        Freelance is a free to use, MIT licensed Bootstrap theme created by
+                        <a href="http://startbootstrap.com">Start Bootstrap</a>
+                        .
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panier Modal -->
+        <div class="modal" id="panierModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title"><i class="fas fa-shopping-cart text-dark"></i> <span
+                                style="color:#2C3E50;">Panier</span></h4>
+                        <button type="button" class="close btn btn-danger" onclick="closePanier()">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="col-12 card">
+                            <div class="card-header col-12" style="background-color:#2C3E50;display: flex;">
+                                <div class="col-1" style="margin-left: -20px;">
+                                    <i class="fab fa-shopify" style="font-size: 25px;"></i>
+                                </div>
+                                <div class="col-3">
+                                    <h6 class="card-title row col-12">Mes achats</h6>
+                                </div>
+                            </div>
+                            <div class="card-body table-responsive-sm">
+                                <table class="table">
+                                    <thead style="color:#2C3E50;">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Produit</th>
+                                            <th scope="col">Categorie</th>
+                                            <th scope="col">Quantité</th>
+                                            <th scope="col">Prix unitaire</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="body_panier_modal">
+                                        <!-- Dynamic content product.js -->
+                                    </tbody>
+                                    <tfoot id="foot_panier_modal">
+                                        <!-- Dynamic content product.js -->
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div><br>
+                        <div class="col-12 card">
+                            <div class="card-header col-12" style="background-color:#2C3E50;display: flex;">
+                                <div class="col-1" style="margin-left: -20px;">
+                                    <i class="fas fa-money-check" style="font-size: 25px;"></i>
+                                </div>
+                                <div class="col-4" style="margin-left: 5px;">
+                                    <h6 class="card-title row col-12">Formulaire de paiement</h6>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <form class="form">
+                                    <div class="form-group row col-12">
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" id="name_checkout"
+                                                placeholder="Nom et prènom">
+                                            <p class="text-danger" id="error_name"
+                                                style="display:none; text-align: center;">Field is required</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="email" class="form-control" id="email_checkout"
+                                                placeholder="Email (exemple@gmail.com)" onkeyup="verificationEmail()">
+                                            <p class="text-danger" id="error_email"
+                                                style="display:none; text-align: center;">Invalide email</p>
+                                        </div>
+                                    </div><br>
+                                    <div class="form-group row col-12">
+                                        <div class="col-5">
+                                            <input type="text" class="form-control" id="phone_checkout"
+                                                placeholder="Téléphone (+261 36 11 111 11)">
+                                            <p class="text-danger" id="error_phone"
+                                                style="display:none; text-align: center;">Field is required</p>
+                                        </div>
+                                        <div class="col-4" style="display: flex;">
+                                            <div class="col-11">
+                                                <input type="number" class="form-control" id="number_cart_checkout"
+                                                    placeholder="000 000 000 000 000" onkeyup="verificationCart()">
+                                                <p class="text-danger" id="error_cart"
+                                                    style="display:none; text-align: center;">Invalide number cart</p>
+                                            </div>
+                                            <div class="col-1" style="margin-left: 15px;">
+                                                <img src="./public/images/visa-logo.png" style="width: 200px;">
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="form-group row col-12">
+                                        <div class="col-4">
+                                            <input type="number" class="form-control" id="expire_mounth_checkout"
+                                                placeholder="Expiry Mounth (MM)" onkeyup="verificationMM()">
+                                            <p class="text-danger" id="error_mm"
+                                                style="display:none; text-align: center;">Invalide Expiry Mounth</p>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="number" class="form-control" id="expire_year_checkout"
+                                                placeholder="Expiry Year (YYYY)" onkeyup="verificationYYYY()">
+                                            <p class="text-danger" id="error_yyyy"
+                                                style="display:none; text-align: center;">Invalide Expiry year</p>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="number" class="form-control" id="cvc_checkout"
+                                                placeholder="CVC (000)" onkeyup="verificationCvc()">
+                                            <p class="text-danger" id="error_cvc"
+                                                style="display:none; text-align: center;">Invalide CVC</p>
+                                        </div>
+                                    </div><br>
+                                </form>
+                            </div>
+                        </div><br>
+                        <div class="row col-12" id="validate_panier" style="display: none;margin-left: 2px;">
+                            <button class="btn btn-primary" style="font-size: 20px;" onclick="validateCardAction()"><i
+                                    class="fas fa-shopping-cart text-white"></i> <span>Valider</span></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Facture Modal -->
+        <div class="modal" id="factureModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title"><i class="fas fa-shopping-cart text-dark"></i> <span
+                                style="color:#2C3E50;">Ticker d'un commande</span></h4>
+                        <button type="button" class="close btn btn-danger" onclick="closeFacture()">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="row col-12"
+                            style="display:none;margin:auto;display: flex; justify-content: center; align-items: center;" id="tikeload">
+                            <img src="../../public/images/loader2.gif" style="width:20%;">
+                        </div>
+                        <div class="row col-12" id="facture_content"
+                            style="display:none;margin: 0px; padding: 0px;background-color: white;box-shadow: 1px 2px 8px black;">
+                            <div class="row col-12"
+                                style="margin-top: 10px; margin-left: 0px; margin-right: 0px; padding: 0px;border-bottom: 2px solid #2C3E50;">
+                                <div class="col-3" style="display: flex; justify-content: left; align-items: left;">
+                                    <i class="fas fa-5x fa-clinic-medical" style="color:#2C3E50;"></i>
+                                </div>
+                                <div class="col-9" style="color:black;">
+                                    <p id="contact_pharmacy" style="text-align: left; font-size: 13px;">
+                                        <!-- dynamic content -->
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row col-12"
+                                style="margin-top: 10px;margin-left: 0px;margin-right: 0px; margin-bottom: 10px; padding: 0px;">
+                                <div class="col-6"
+                                    style="display: flex;color: black; justify-content: left; align-items: left;">
+                                    <p id="libelles" style="text-align: left;font-size: 13px;font-weight: 600;">
+                                        <!-- dynamic content -->
+                                    </p>
+                                </div>
+                                <div class="col-6"
+                                    style="color:black;display: flex; justify-content: right; align-items: right;">
+                                    <img id="image" src="#" alt="Image" width="60%"><!-- dynamic src -->
+                                </div>
+                            </div>
+                            <div class="row col-12" style="margin:0; padding: 0px;border-top: 2px solid #2C3E50;">
+                                <p style="font-size: 10px;text-align: left;color: #2C3E50;margin-top: 10px;">Veuillez
+                                    amener ce ticket au point de vente désigné pour récupérer votre commande.</p>
+                            </div>
+                        </div>
+                        <div class="row col-12" style="margin: 0px; margin-top: 20px; padding: 0px;">
+                            <button class="btn btn-primary" style="font-size: 16px;" onclick="screenShotFacture()"><i
+                                    class="fas fa-camera text-white"></i> <span>Enregistrer</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Copyright Section-->
+    <div class="copyright py-4 text-center text-white">
+        <div class="container"><small>Copyright &copy; Your Website 2022</small></div>
+    </div>
+
+
+    <!-- Map-->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- swalalert -->
+    <script src="./node_modules/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- Importer html2canvas -->
+    <script src="./node_modules/dom-to-image/dist/dom-to-image.min.js"></script>
+    <script src="./node_modules/file-saver/dist/FileSaver.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="./public/js/scripts.js"></script>
+    <script src="./src/components/product.js"></script>
+    <script src="./src/components/pharmacie.js"></script>
+    <script src="./src/app/app.js"></script>
+    <script src="./public/js/paginationMedicament.js"></script>
+    <script src="./public/js/reload/reloadMedicament.js"></script>
+</body>
+
+</html>
