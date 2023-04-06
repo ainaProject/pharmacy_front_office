@@ -546,6 +546,7 @@ function verificationYYYY() {
     }
 }
 
+
 function verificationCvc() {
     const cvc = $("#cvc_checkout").val();
 
